@@ -1,0 +1,53 @@
+{
+	"Description": "This template creates an IAM Role with authorization specifically required by the AMI API application to function. The Role's ARN is output.",
+
+	"Resources": {
+		"AmiApiRole": {
+			"Type": "AWS::IAM::Role",
+			"Properties": {
+				"AssumeRolePolicyDocument": {
+					"Statement": [{
+						"Effect": "Allow",
+						"Principal": {
+							"Service": ["ec2.amazonaws.com"]
+						},
+						"Action": ["sts:AssumeRole"]
+					}]
+				},
+				"Path": "/"
+			}
+		},
+		"RolePolicies": {
+			"Type": "AWS::IAM::Policy",
+			"Properties": {
+				"PolicyName": "root",
+				"PolicyDocument": {
+					"Statement": [{
+						"Sid": "Stmt1362164194325",
+						"Action": ["ec2:DescribeImageAttribute", "ec2:DescribeImages", "ec2:DescribeRegions"],
+						"Effect": "Allow",
+						"Resource": ["*"]
+					}]
+				},
+				"Roles": [{
+					"Ref": "AmiApiRole"
+				}]
+			}
+		},
+		"AmiApiInstanceProfile": {
+			"Type": "AWS::IAM::InstanceProfile",
+			"Properties": {
+				"Path": "/",
+				"Roles": [{
+					"Ref": "AmiApiRole"
+				}]
+			}
+		}
+	},
+	"Outputs": {
+		"AmiApiInstanceProfile": {
+			"Description" : "The ARN of the IAM Role to be used by the AMI API application.",
+			"Value" : { "Ref": "AmiApiInstanceProfile" }
+		}
+	}
+}
