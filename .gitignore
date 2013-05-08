@@ -1,3 +1,2 @@
-.elasticbeanstalk/
-.ebextensions/
-*.pyc
+.gitignore
+.pyc
