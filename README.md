@@ -21,4 +21,6 @@ The application requires REST API credentials to be set in the `AWS_ACCESS_KEY_I
 	  ]
 	}
 
+# Important Security Information
+
 If the application is deployed in EC2, an IAM Role should be used in lieu of the environment variables mentioned above. `instance-role.json` may be used to create a CloudFormation stack that will create the appropriate IAM Role, which can then be applied to the EC2 Instance or Elastic Beanstalk environment hosting the application.
